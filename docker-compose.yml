@@ -1,0 +1,50 @@
+version: "3.7"
+
+services:
+
+  todo-rabbitmq:
+    image: rabbitmq:3.9-management
+    env_file:
+      - .env
+    ports:
+      - ${RABBITMQ_PORT2}:5672
+      - ${RABBITMQ_PORT}:15672
+
+
+  todo-db:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - ./data/db:/var/lib/postgresql/data/
+
+  todo-web:
+    restart: always
+    build: .
+    volumes:
+      - .:/todo_service
+    env_file:
+      - .env
+    depends_on:
+      - todo-db
+      - todo-rabbitmq
+    command: sh ./start.sh
+    ports:
+      - 1337:8000
+    
+  todo-celery:
+    build: .
+    volumes:
+      - .:/todo_service
+    env_file:
+      - .env
+    depends_on:
+      - todo-db
+      - todo-web
+      - todo-rabbitmq
+    command: bash -c "celery -A core worker --loglevel=DEBUG"
+
