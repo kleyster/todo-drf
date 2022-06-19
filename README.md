@@ -14,4 +14,4 @@ docker-compose up --build
 ```
 
 
-[documentation to API](localhost:1337/docs/)
+[documentation to API localhost:1337/docs/](http://localhost:1337/docs/)
