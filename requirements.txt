@@ -27,6 +27,7 @@ prompt-toolkit==3.0.29
 PyJWT==2.4.0
 pyparsing==3.0.9
 pytz==2022.1
+psycopg2-binary
 redis==4.3.3
 requests==2.28.0
 ruamel.yaml==0.17.21

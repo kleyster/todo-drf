@@ -2,7 +2,7 @@ import os
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = True if os.environ.get('DEBUG') else False 
 
 DATABASES = {
     'default': {

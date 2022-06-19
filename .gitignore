@@ -22,3 +22,4 @@ data/
 Makefile
 .idea
 /core/local_settings.py
+/static/
